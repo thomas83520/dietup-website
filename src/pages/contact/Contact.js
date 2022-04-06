@@ -49,7 +49,6 @@ export default function Contact() {
       setErrorText("Email est vide");
       return;
     }
-    console.log(validateEmail(email))
     if (!validateEmail(email)) {
       setEmailError(true);
       setErrorText("Ceci n'est pas un email");
@@ -85,6 +84,7 @@ export default function Contact() {
           minHeight="100vh"
           textAlign="center"
           marginTop="20px"
+          marginBottom="20px"
         >
           <Box
             component="img"

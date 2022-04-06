@@ -1,6 +1,8 @@
 import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/analytics";
+import "firebase/firestore";
+import "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDWS8oTIDs6dgiGNTjelnn1FcWNZL1Br3o",
@@ -18,7 +20,17 @@ firebase.initializeApp(firebaseConfig);
 
 //init service
 const projectAnalytics = firebase.analytics();
-const projectCloudFunctions = firebase.app().functions('europe-west1');
+const projectFirestore = firebase.firestore();
+const projectAuth = firebase.auth();
+const projectCloudFunctions = firebase.app().functions("europe-west1");
 
+//timestamp
+const timestamp = firebase.firestore.Timestamp;
 
-export {  projectAnalytics, projectCloudFunctions };
+export {
+  projectAnalytics,
+  projectCloudFunctions,
+  projectFirestore,
+  projectAuth,
+  timestamp,
+};
