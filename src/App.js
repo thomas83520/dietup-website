@@ -22,6 +22,7 @@ import PaiementSucces from "./pages/success_paiement/PaiementSucces";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 let theme = createTheme({
+  
   palette: {
     primary: { main: "#60A561", contrastText: "#fff" },
   },

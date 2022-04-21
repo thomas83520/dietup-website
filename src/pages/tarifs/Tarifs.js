@@ -3,6 +3,10 @@ import React from "react";
 import TarifsItem from "./TarifsItem";
 import { useCollection } from "../../hooks/useCollections";
 
+import { titleTheme, subtitleTheme } from "../../constants";
+import { responsiveFontSizes } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/system";
+
 export default function Tarifs() {
   const { documents, error } = useCollection("abonnement", null, [
     "order",
@@ -11,12 +15,16 @@ export default function Tarifs() {
 
   return (
     <Box textAlign="center" px={2}>
-      <Typography variant="h2" py={3}>
-        Tarifs
-      </Typography>
-      <Typography>
-        Tous les abonnement sont renouvelés automatiquement
-      </Typography>
+      <ThemeProvider theme={responsiveFontSizes(titleTheme)}>
+        <Typography variant="h2" py={3}>
+          Tarifs
+        </Typography>
+      </ThemeProvider>
+      <ThemeProvider theme={responsiveFontSizes(subtitleTheme)}>
+        <Typography variant="h6">
+          Tous les abonnement sont renouvelés automatiquement
+        </Typography>
+      </ThemeProvider>
       <Stack
         direction={{ xs: "column", md: "row" }}
         spacing={3}
@@ -27,7 +35,7 @@ export default function Tarifs() {
         {documents &&
           documents.map((doc) => (
             <TarifsItem
-            key={doc.id}
+              key={doc.id}
               nom={doc.nom}
               subtitle={doc.subtitle}
               link={doc.link}

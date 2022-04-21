@@ -21,7 +21,7 @@ export default function Logo() {
         alt="Logo"
         src={LogoImage}
       />
-      <Typography variant="h5" component="h1">DietUp!</Typography>
+      <Typography variant="h4" component="h1">DietUp!</Typography>
     </Box>
   );
 }

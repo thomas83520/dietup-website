@@ -136,6 +136,9 @@ export default function Contact() {
                 <MenuItem value={"Webapp"}>
                   Application web diététicien
                 </MenuItem>
+                <MenuItem value={"Autre"}>
+                  Autre
+                </MenuItem>
               </Select>
             </FormControl>
             <TextField

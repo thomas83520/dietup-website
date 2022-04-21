@@ -20,6 +20,10 @@ import { useParams } from "react-router-dom";
 import { useSignup } from "../../hooks/useSignup";
 import { useFunctions } from "../../hooks/useFunctions";
 
+import { subtitleTheme, policeTheme, titleTheme } from "../../constants";
+import { responsiveFontSizes } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/system";
+
 export default function InscriptionForm({
   docPlan,
   setReadyForPaiement,
@@ -102,19 +106,18 @@ export default function InscriptionForm({
 
     let displayName = nom + " " + prenom;
 
-    const {valide,reponse} = await signup(email, password, displayName);
+    const { valide, reponse } = await signup(email, password, displayName);
 
-    if(!valide){
+    if (!valide) {
       console.log(reponse.message);
-      if(reponse.code === "auth/email-already-in-use"){
-
-      setEmailError(true);
-      setErrorText("Cet email est déjà utilisé.");
+      if (reponse.code === "auth/email-already-in-use") {
+        setEmailError(true);
+        setErrorText("Cet email est déjà utilisé.");
       }
       return;
     }
     const user = reponse;
-    console.log("user",user);
+    console.log("user", user);
     const codeDiet = await callfunction("generateCodeDiet", {});
     const data = {
       email,
@@ -142,11 +145,15 @@ export default function InscriptionForm({
   return (
     <Container maxWidth="sm">
       <Box textAlign="center" py={3}>
-        <Typography variant="h3">Inscription</Typography>
+        <ThemeProvider theme={responsiveFontSizes(titleTheme)}>
+          <Typography variant="h3">Inscription</Typography>
+        </ThemeProvider>
         <Box component="form" py={2} onSubmit={handleSubmit}>
-          <Typography variant="subtitle1" color="grey">
-            Informations personnel
-          </Typography>
+          <ThemeProvider theme={responsiveFontSizes(subtitleTheme)}>
+            <Typography variant="h6" color="grey">
+              Informations personnelles
+            </Typography>
+          </ThemeProvider>
           <TextField
             margin="normal"
             required
@@ -189,10 +196,12 @@ export default function InscriptionForm({
             error={phoneError}
             helperText={phoneError ? errorText : ""}
           />
+          <ThemeProvider theme={responsiveFontSizes(subtitleTheme)}>
+            <Typography py={1} variant="h6">
+              Informations de connexion
+            </Typography>
+          </ThemeProvider>
 
-          <Typography py={1} variant="subtitle1">
-            Informations de connexion
-          </Typography>
           <TextField
             margin="normal"
             required
@@ -235,21 +244,23 @@ export default function InscriptionForm({
             helperText={passwordError ? errorText : ""}
           />
           <Box textAlign="start">
-            <Typography variant="subtitle2">
-              Votre mot de passe doit :
-            </Typography>
-            <Typography variant="subtitle2">
-              {" "}
-              - Faire plus de 8 caratcères de long{" "}
-            </Typography>
-            <Typography variant="subtitle2">
-              {" "}
-              - Contenir au minimum 1 majuscule et 1 minuscule
-            </Typography>
-            <Typography variant="subtitle2">
-              {" "}
-              - Contenir au moins 1 chiffre
-            </Typography>
+            <ThemeProvider theme={responsiveFontSizes(policeTheme)}>
+              <Typography variant="subtitle1">
+                Votre mot de passe doit :
+              </Typography>
+              <Typography variant="subtitle1">
+                {" "}
+                - Faire plus de 8 caratcères de long{" "}
+              </Typography>
+              <Typography variant="subtitle1">
+                {" "}
+                - Contenir au minimum 1 majuscule et 1 minuscule
+              </Typography>
+              <Typography variant="subtitle1">
+                {" "}
+                - Contenir au moins 1 chiffre
+              </Typography>
+            </ThemeProvider>
           </Box>
           <TextField
             margin="normal"

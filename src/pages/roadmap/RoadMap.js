@@ -14,7 +14,10 @@ import React, { useState } from "react";
 import ModalRM from "./ModalRM";
 
 import { useCollection } from "../../hooks/useCollections";
+import { ThemeProvider } from "@mui/system";
 
+import { titleTheme, subtitleTheme } from "../../constants";
+import { responsiveFontSizes } from "@mui/material/styles";
 export default function RoadMap() {
   const [open, setOpen] = useState(false);
   const [motif, setMotif] = useState("");
@@ -33,12 +36,16 @@ export default function RoadMap() {
 
   return (
     <Box textAlign="center">
-      <Typography variant="h2" py={2}>
-        RoadMap
-      </Typography>
-      <Typography variant="subtitle1">
-        Les fonctionnalités à venir sur DietUp!
-      </Typography>
+      <ThemeProvider theme={responsiveFontSizes(titleTheme)}>
+        <Typography variant="h2" py={2}>
+          RoadMap
+        </Typography>
+      </ThemeProvider>
+      <ThemeProvider theme={responsiveFontSizes(subtitleTheme)}>
+        <Typography variant="h6">
+          Les fonctionnalités à venir sur DietUp!
+        </Typography>
+      </ThemeProvider>
       <TableContainer sx={{ padding: "20px" }}>
         <Table sx={{ minWidth: "500px" }}>
           <TableHead>
@@ -55,7 +62,7 @@ export default function RoadMap() {
                 <TableRow key={document.id}>
                   <TableCell>{document.name}</TableCell>
                   <TableCell>{document.plateforme}</TableCell>
-                 {/* <TableCell>{document.avancement}</TableCell>*/}
+                  {/* <TableCell>{document.avancement}</TableCell>*/}
                   <TableCell>
                     <Box display={{ xs: "none", sm: "block" }}>
                       <Button

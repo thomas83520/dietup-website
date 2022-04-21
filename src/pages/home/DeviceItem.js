@@ -2,6 +2,9 @@ import { Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 
+import { subtitleTheme,policeTheme } from "../../constants";
+import { responsiveFontSizes } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/system";
 export default function DeviceItem({ image, titre, description }) {
   return (
     <Box py={4}>
@@ -15,7 +18,11 @@ export default function DeviceItem({ image, titre, description }) {
             height: "50px",
           }}
         />
-        <Typography p={2} variant="h6">{titre}</Typography>
+        <ThemeProvider theme={responsiveFontSizes(subtitleTheme)}>
+          <Typography p={2} variant="h5">
+            {titre}
+          </Typography>
+        </ThemeProvider>
       </Stack>
 
       <Typography variant="subtitle2">{description}</Typography>

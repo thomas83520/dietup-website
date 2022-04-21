@@ -7,28 +7,33 @@ import AccueilImage from "../../assets/Accueil.png";
 import GooglePlayImage from "../../assets/googlePlay.png";
 import AppStoreImage from "../../assets/appStore.svg";
 
+import { subtitleTheme, policeTheme, titleTheme } from "../../constants";
+import { responsiveFontSizes } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/system";
 export default function Store() {
   return (
     <Box textAlign="center">
-      <Typography variant="h4">
-        Une application disponible sur tout les téléphones
-      </Typography>
+      <ThemeProvider theme={responsiveFontSizes(titleTheme)}>
+        <Typography variant="h4">
+          Une application disponible sur tout les téléphones
+        </Typography>
+      </ThemeProvider>
       <Box
         p={3}
         display="flex"
         justifyContent="space-evenly"
         alignItems="center"
-        height={{xs:"100%",md:"500px"}}
+        height={{ xs: "100%", md: "500px" }}
       >
         <Box
-        display={{xs:"none",md:"block"}}
+          display={{ xs: "none", md: "block" }}
           component="img"
           src={LoginImage}
           alt="Login image"
           sx={{ maxHeight: "100%", maxWidth: "100%" }}
         />
         <Box
-        display={{xs:"none",md:"block"}}
+          display={{ xs: "none", md: "block" }}
           component="img"
           src={AccueilImage}
           alt="Accueil image"

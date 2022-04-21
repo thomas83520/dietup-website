@@ -12,13 +12,18 @@ import CoubresImages from "../../assets/courbes.svg";
 import PhotosImages from "../../assets/photos.svg";
 import DocumentsImage from "../../assets/documents.svg";
 
-export default function Fonctionnalite({reference}) {
-  
+import { subtitleTheme, policeTheme, titleTheme } from "../../constants";
+import { responsiveFontSizes } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/system";
+
+export default function Fonctionnalite({ reference }) {
   return (
     <Box ref={reference} p={5} className="fonctionnalite">
-      <Typography pb={5} variant="h5">
-        Fonctionnalités
-      </Typography>
+      <ThemeProvider theme={responsiveFontSizes(titleTheme)}>
+        <Typography sx={{ textAlign: "center" }} pb={5} variant="h3">
+          Fonctionnalités
+        </Typography>
+      </ThemeProvider>
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
           <FonctionnaliteItem
@@ -28,7 +33,7 @@ export default function Fonctionnalite({reference}) {
             image={JournalImage}
           />
         </Grid>
-        <Grid item  xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <FonctionnaliteItem
             nom="Messages"
             direction="row-reverse"
@@ -36,7 +41,7 @@ export default function Fonctionnalite({reference}) {
             image={MessageImage}
           />
         </Grid>
-        <Grid item  xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <FonctionnaliteItem
             nom="Objectifs"
             direction="row"
@@ -44,7 +49,7 @@ export default function Fonctionnalite({reference}) {
             image={ObjectifsImage}
           />
         </Grid>
-        <Grid item  xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <FonctionnaliteItem
             nom="Courbes de poids et mesures"
             direction="row-reverse"
@@ -52,7 +57,7 @@ export default function Fonctionnalite({reference}) {
             image={CoubresImages}
           />
         </Grid>
-        <Grid item  xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <FonctionnaliteItem
             nom="Gallerie photo"
             direction="row"

@@ -7,15 +7,21 @@ import WebImage from "../../assets/1-2.png";
 import PhoneImage from "../../assets/3-1.png";
 import DeviceItem from "./DeviceItem";
 
+import { mainTitleTheme } from "../../constants";
+import { responsiveFontSizes } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/system";
+
 export default function Accueil({ func }) {
   return (
     <Box textAlign="center">
       <Box display={{ xs: "none", md: "flex" }}>
         <Box textAlign="center" p={4} sx={{ width: "50%" }}>
-          <Typography variant="h4" color="primary">
-            Gardez le contact avec vos patients afin de personnaliser au mieux
-            leur suivi
-          </Typography>
+          <ThemeProvider theme={responsiveFontSizes(mainTitleTheme)}>
+            <Typography variant="h4" color="primary" pb={4}>
+              Gardez le contact avec vos patients afin de personnaliser au mieux
+              leur suivi
+            </Typography>
+          </ThemeProvider>
           <Typography variant="subtititle1" py={3}>
             Echangez en direct, suivez les repas de vos patient au quotidien et
             partagez des documents avec eux pour leur permettre d'atteindre leur
