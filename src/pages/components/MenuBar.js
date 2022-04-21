@@ -115,7 +115,7 @@ export default function MenuBar() {
           <Button href="https://app.dietup.fr/" target="_blank" variant="contained" size="small" px={2}>
             Espace pro
           </Button>
-          {user && <Button onClick={logout}>Log out</Button>}
+          {user && <Button onClick={logout}>Se déconnecter</Button>}
         </Box>
       </Box>
 

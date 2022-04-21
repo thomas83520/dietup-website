@@ -45,7 +45,7 @@ export default function RoadMap() {
             <TableRow>
               <TableCell>Fonctionnalité</TableCell>
               <TableCell>Plateforme</TableCell>
-              <TableCell>Avancement</TableCell>
+              {/*<TableCell>Avancement</TableCell>*/}
               <TableCell />
             </TableRow>
           </TableHead>
@@ -55,7 +55,7 @@ export default function RoadMap() {
                 <TableRow key={document.id}>
                   <TableCell>{document.name}</TableCell>
                   <TableCell>{document.plateforme}</TableCell>
-                  <TableCell>{document.avancement}</TableCell>
+                 {/* <TableCell>{document.avancement}</TableCell>*/}
                   <TableCell>
                     <Box display={{ xs: "none", sm: "block" }}>
                       <Button

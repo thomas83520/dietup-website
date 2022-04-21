@@ -150,7 +150,6 @@ export default function PaiementForm({
     <Box fullWidth textAlign="center" my={2}>
       <CircularProgress />
       <Typography>Chargement du formulaire de paiement</Typography>
-      <Button onClick={logout}>Log out</Button>
     </Box>
   );
 }
