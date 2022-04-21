@@ -1,10 +1,11 @@
 import { projectCloudFunctions } from "../firebase/config";
-import { useReducer, useState,useEffect } from "react";
+import { useReducer, useState, useEffect } from "react";
 
 let initalState = {
   isPending: false,
   error: null,
   success: null,
+  data: null,
 };
 
 const functionsReducer = (state, action) => {
@@ -14,18 +15,21 @@ const functionsReducer = (state, action) => {
         isPending: true,
         success: null,
         error: null,
+        data: null,
       };
     case "SUCCESS":
       return {
         isPending: false,
         success: true,
         error: null,
+        data: action.payload,
       };
     case "ERROR":
       return {
         isPending: false,
         success: null,
         error: action.payload,
+        data: null,
       };
     default:
       return state;
@@ -43,17 +47,18 @@ export const useFunctions = () => {
     }
   };
 
-  const sendMail = async (functionName,functionData) => {
+  const callfunction = async (functionName, functionData) => {
     dispatch({ type: "IS_PENDING" });
     try {
-        console.log('try')
-        var functions = projectCloudFunctions.httpsCallable(functionName);
-        console.log("func");
+      console.log("name", functionName);
+      var functions = projectCloudFunctions.httpsCallable(functionName);
+      console.log(functionData);
       const response = await functions(functionData);
+      dispatchIfNotCancelled({ type: "SUCCESS", payload: response.data });
       console.log("response",response);
-      dispatchIfNotCancelled({ type: "SUCCESS" });
+      return response.data;
     } catch (e) {
-      console.log("error",e);
+      console.log("error", e);
       dispatchIfNotCancelled({ type: "ERROR", payload: e });
     }
   };
@@ -62,5 +67,5 @@ export const useFunctions = () => {
     return () => setIsCancelled(true);
   }, []);
 
-  return { sendMail, response };
+  return { callfunction, response };
 };

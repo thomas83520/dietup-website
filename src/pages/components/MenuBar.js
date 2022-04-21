@@ -5,6 +5,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MailIcon from "@mui/icons-material/Mail";
 import InboxIcon from "@mui/icons-material/Inbox";
 import { useHistory,NavLink } from "react-router-dom";
+import { useLogout } from "../../hooks/useLogout";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const route = [
   { label: "Présentation", route: "/" },
@@ -29,7 +31,8 @@ const LinkBehavior = React.forwardRef((props, ref) => {
 
 export default function MenuBar() {
   const history = useHistory();
-
+  const {logout} = useLogout();
+  const {authIsReady,user} = useAuthContext();
 
   const [state, setState] = React.useState({
     top: false,
@@ -112,6 +115,7 @@ export default function MenuBar() {
           <Button href="https://app.dietup.fr/" target="_blank" variant="contained" size="small" px={2}>
             Espace pro
           </Button>
+          {user && <Button onClick={logout}>Log out</Button>}
         </Box>
       </Box>
 

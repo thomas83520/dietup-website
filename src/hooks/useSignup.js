@@ -17,7 +17,6 @@ export const useSignup = () => {
         email,
         password
       );
-      console.log(response.user);
 
       if (!response) {
         throw new Error("Could not complete signup");
@@ -33,11 +32,14 @@ export const useSignup = () => {
         setIsPending(false);
         setError(null);
       }
+
+      return {valide:true,reponse:response.user};
     } catch (e) {
       if (!isCancelled) {
-        console.log(e.message);
+        console.log(e);
         setError(e.message);
         setIsPending(false);
+        return {valide : false,reponse: e};
       }
     }
   };

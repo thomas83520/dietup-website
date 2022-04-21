@@ -30,7 +30,7 @@ export default function Contact() {
   const [contenuError, setContenuError] = useState(false);
   const [errorText, setErrorText] = useState("");
 
-  const {sendMail,response} = useFunctions()
+  const {callfunction,response} = useFunctions();
 
   const validateEmail = (email) => {
     return email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
@@ -66,8 +66,7 @@ export default function Contact() {
     }
 
     const data = {subject:"Contact for "+typeApp,text : contenu +" from "+ email}
-    console.log(data);
-    await sendMail('sendMailContact',data);
+    await callfunction('sendMailContact',data);
 
     setEmail('');
     setSujet('');
