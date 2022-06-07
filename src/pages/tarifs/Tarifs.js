@@ -1,5 +1,5 @@
 import { Box, Typography, Stack } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import TarifsItem from "./TarifsItem";
 import { useCollection } from "../../hooks/useCollections";
 
@@ -13,6 +13,12 @@ export default function Tarifs() {
     "asc",
   ]);
 
+  const { documents: promo, error: errorPromo } = useCollection(
+    "coupon",
+    ["isPublic", "==", true],
+    null
+  );
+
   return (
     <Box textAlign="center" px={2}>
       <ThemeProvider theme={responsiveFontSizes(titleTheme)}>
@@ -22,9 +28,22 @@ export default function Tarifs() {
       </ThemeProvider>
       <ThemeProvider theme={responsiveFontSizes(subtitleTheme)}>
         <Typography variant="h6">
-          Tous les abonnement sont renouvelés automatiquement
+          Tous les abonnement sont sans engagement
         </Typography>
       </ThemeProvider>
+
+      {promo && promo.length > 0 && (
+        <Box>
+          <Typography
+            color="red"
+            pt={2}
+            variant="h4"
+          >{`${promo[0].motif} : ${promo[0].value}% de réduction à vie!`}</Typography>
+          <Typography  color="red"
+            pt={1}
+            variant="h4">{`Avec le code : ${promo[0].code}`}</Typography>
+        </Box>
+      )}
       <Stack
         direction={{ xs: "column", md: "row" }}
         spacing={3}
@@ -41,7 +60,11 @@ export default function Tarifs() {
               link={doc.link}
               priceId={doc.priceId}
               prix={doc.prix}
+              prixnumber={doc.prixnumber}
+              engagementDuree={doc.engagementDuree}
               subtitlePrix={doc.subtitlePrix}
+              asPromo={promo && promo.length > 0 ? true : false}
+              promo={promo}
             />
           ))}
       </Stack>

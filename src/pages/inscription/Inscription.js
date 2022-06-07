@@ -17,8 +17,11 @@ export default function Inscription() {
   const { logout, error, isPending } = useLogout();
   const [readyForPaiement, setReadyForPaiement] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
+  const [newPrice, setNewPrice] = useState(null);
   const [docPlan, setDocPlan] = useState();
   const [noPlan, setNoPlan] = useState(false);
+
+  const [paiementComplete, setPaiementComplete] = useState(false);
 
   useEffect(async () => {
     try {
@@ -39,6 +42,9 @@ export default function Inscription() {
     }
   }, [plan]);
 
+  if (paiementComplete) {
+    return <Redirect to={{ pathname: "/paiement_succeeded" }} />;
+  }
   return noPlan ? (
     <Redirect to={{ pathname: "/" }} />
   ) : (
@@ -49,6 +55,8 @@ export default function Inscription() {
             docPlan={docPlan}
             setReadyForPaiement={setReadyForPaiement}
             setClientSecret={setClientSecret}
+            setPaiementComplete={setPaiementComplete}
+            setNewPrice={setNewPrice}
           />
         ) : (
           <Box textAlign="center">
@@ -64,6 +72,7 @@ export default function Inscription() {
           clientSecret={clientSecret}
           setClientSecret={setClientSecret}
           user={user}
+          newPrice={newPrice}
         />
       ))
   );

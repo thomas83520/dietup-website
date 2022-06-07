@@ -24,3 +24,9 @@ export let policeTheme = createTheme({
 export let formuleTheme = createTheme({
   typography: { fontFamily: ["Balsamiq Sans", "Roboto"].join(",") },
 });
+
+export let checkboxLabelTheme = createTheme({
+  palette: {
+    primary: { main: "#696969", contrastText: "#fff" },
+  },
+})

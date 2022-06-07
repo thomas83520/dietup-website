@@ -8,7 +8,10 @@ import {
   Divider,
   InputAdornment,
   IconButton,
+  Checkbox,
 } from "@mui/material";
+
+import { red } from '@mui/material/colors';
 import MuiPhoneNumber from "material-ui-phone-number";
 
 import Visibility from "@mui/icons-material/Visibility";
@@ -20,14 +23,20 @@ import { useParams } from "react-router-dom";
 import { useSignup } from "../../hooks/useSignup";
 import { useFunctions } from "../../hooks/useFunctions";
 
+import { projectFirestore } from "../../firebase/config";
 import { subtitleTheme, policeTheme, titleTheme } from "../../constants";
 import { responsiveFontSizes } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/system";
+import { Redirect } from "react-router-dom";
+
+import { checkboxLabelTheme } from "../../constants";
 
 export default function InscriptionForm({
   docPlan,
   setReadyForPaiement,
   setClientSecret,
+  setPaiementComplete,
+  setNewPrice,
 }) {
   const { signup, isPending, error } = useSignup();
   const { callfunction, response } = useFunctions();
@@ -39,6 +48,12 @@ export default function InscriptionForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [checked, setChecked] = useState(false);
+
+  const [promoCode, setPromoCode] = useState("");
+  const [promoCodeId, setPromoCodeId] = useState("");
+  const [promoCodeChanged, setPromoCodeChanged] = useState(false);
+  const [promoCodeLoading, setPromoCodeLoading] = useState(false);
 
   const [prenomError, setPrenomError] = useState(false);
   const [nomError, setNomError] = useState(false);
@@ -46,6 +61,9 @@ export default function InscriptionForm({
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [promoCodeError, setPromoCodeError] = useState(false);
+  const [checkedError, setCheckedError] = useState(false);
+
   const [errorText, setErrorText] = useState("");
 
   const validateEmail = (email) => {
@@ -54,7 +72,40 @@ export default function InscriptionForm({
   const validatePassword = (password) => {
     return password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
   };
+  const calculNewPrix = (oldPrix, reduction) => {
+    if (reduction.montant === "pourcentage") {
+      return oldPrix * (1 - reduction.value / 100);
+    }
+    if (reduction.montant === "fixe") {
+      return oldPrix;
+    }
+  };
+  const verifyCode = async () => {
+    if (promoCode === "") {
+      setPromoCodeError(true);
+      setErrorText("Aucun code saisie");
+      return;
+    }
 
+    setPromoCodeId("");
+    setPromoCodeLoading(true);
+    setPromoCodeError(false);
+    const result = await projectFirestore
+      .collection("coupon")
+      .where("code", "==", promoCode)
+      .limit(1)
+      .get();
+    if (result.empty) {
+      setPromoCodeError(true);
+      setErrorText("Le code n'existe pas");
+      setPromoCode("");
+    } else {
+      setNewPrice(calculNewPrix(docPlan.prixnumber, result.docs[0].data()));
+      setPromoCodeId(result.docs[0].data().id);
+    }
+    setPromoCodeLoading(false);
+    setPromoCodeChanged(false);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -103,6 +154,16 @@ export default function InscriptionForm({
       setErrorText("Le mot de passe et la confirmation ne correspondent pas");
       return;
     }
+    if (promoCodeChanged) {
+      setPromoCodeError(true);
+      setErrorText("vérifiez le code promo avant de valider.");
+      return;
+    }
+
+    if (!checked) {
+      setCheckedError(true);
+      return;
+    }
 
     let displayName = nom + " " + prenom;
 
@@ -127,11 +188,15 @@ export default function InscriptionForm({
       uid: user.uid,
       uidDiet: codeDiet,
       priceId: docPlan.priceId,
-      asEngagement: docPlan.asEngagement,
-      engagementDuree: docPlan.engagementDuree,
+      promotion_code: promoCodeId,
+      asPromotion: promoCodeId === "" ? false : true,
     };
     const result = await callfunction("createStripeCustomers", data);
     console.log("result", result);
+    if (!result.needPaiment) {
+      setPaiementComplete(true);
+      return;
+    }
     setClientSecret(result.clientSecret);
     setReadyForPaiement(true);
 
@@ -142,6 +207,7 @@ export default function InscriptionForm({
     setPrenom("");
     setPhone("");
   };
+
   return (
     <Container maxWidth="sm">
       <Box textAlign="center" py={3}>
@@ -290,10 +356,72 @@ export default function InscriptionForm({
             error={confirmPasswordError}
             helperText={confirmPasswordError ? errorText : ""}
           />
+
+          <ThemeProvider theme={responsiveFontSizes(subtitleTheme)}>
+            <Typography py={1} variant="h6">
+              Code de promotion
+            </Typography>
+          </ThemeProvider>
+
+          <Box display="flex" alignItems="center">
+            <TextField
+              margin="normal"
+              fullWidth
+              color="primary"
+              id="promoCode"
+              label="Code de promotion"
+              name="email"
+              onChange={(e) => {
+                setPromoCode(e.target.value.toUpperCase());
+                setPromoCodeChanged(true);
+              }}
+              value={promoCode}
+              error={promoCodeError}
+              helperText={promoCodeError ? errorText : ""}
+            />
+            <Box ml={2}>
+              {promoCodeLoading ? (
+                <Button disabled onClick={verifyCode} size="small">
+                  Vérification du code
+                </Button>
+              ) : (
+                <Button onClick={verifyCode} size="small">
+                  Vérifier le code promo
+                </Button>
+              )}
+            </Box>
+          </Box>
+          {promoCodeId.length > 0 ? (
+            <Typography variant="subtitle2" color="primary">
+              Le code promo a bien été validé
+            </Typography>
+          ) : (
+            <Box />
+          )}
+
+          <Box display="flex" py={2}>
+            <Checkbox
+              onChange={(e) => setChecked(e.target.checked)}
+              sx={{
+                color: checkedError ? red[500] : red,
+              }}
+            />
+            <ThemeProvider theme={responsiveFontSizes(checkboxLabelTheme)}>
+              <Typography variant="subtitle2" color={checkedError? "error" : "primary"}>
+                En cochant cette case j'atteste avoir lu et accepté les
+                conditions générales de ventes.
+              </Typography>
+            </ThemeProvider>
+          </Box>
+          {checkedError ? <Box></Box> : <Box></Box>}
           <Box py={2}>
             {response.isPending || isPending ? (
               <Button disabled variant="contained" size="large">
                 Création en cours
+              </Button>
+            ) : promoCodeLoading ? (
+              <Button disabled type="submit" variant="contained" size="large">
+                Créer mon compte
               </Button>
             ) : (
               <Button type="submit" variant="contained" size="large">

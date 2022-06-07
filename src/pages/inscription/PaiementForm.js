@@ -41,6 +41,7 @@ export default function PaiementForm({
   setClientSecret,
   docPlan,
   user,
+  newPrice,
 }) {
   const { logout, error, isPending } = useLogout();
   console.log("user", user);
@@ -107,10 +108,11 @@ export default function PaiementForm({
         <Typography variant="h5" mb={2} textAlign="center">
           {docPlan.nom}
         </Typography>
-        <Typography>{docPlan.prixDisplayPaiement}</Typography>
-        <Typography variant="subtitle2" mb={2}>
-          {docPlan.engagementDisplay}
-        </Typography>
+        {newPrice ? (
+          <Typography>{`Prix : ${newPrice}€ tout les ${docPlan.engagementDuree} mois`}</Typography>
+        ) : (
+          <Typography>{docPlan.prixDisplayPaiement}</Typography>
+        )}
         <TextField
           fullWidth
           sx={{ marginY: 2 }}
@@ -120,12 +122,7 @@ export default function PaiementForm({
         />
         <CardElement options={CARD_ELEMENT_OPTIONS} />
         {loadingPaiement ? (
-          <Button
-            sx={{ marginY: 3 }}
-            disabled
-            fullWidth
-            variant="contained"
-          >
+          <Button sx={{ marginY: 3 }} disabled fullWidth variant="contained">
             Paiement en cours
           </Button>
         ) : (

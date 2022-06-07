@@ -8,8 +8,12 @@ export default function TarifsItem({
   nom,
   subtitle,
   prix,
+  prixnumber,
   link,
   subtitlePrix,
+  engagementDuree,
+  asPromo,
+  promo,
 }) {
   const history = useHistory();
   return (
@@ -21,12 +25,37 @@ export default function TarifsItem({
         <Typography variant="h4">{nom}</Typography>
       </ThemeProvider>
       <Typography variant="subtitle2">{subtitle}</Typography>
-      <Typography variant="h5" pt={2}>
-        {prix}
-      </Typography>
-      <Typography variant="subtitle2" pt={1}>
-        {subtitlePrix}
-      </Typography>
+      {asPromo ? (
+        <Box>
+          <Typography
+            variant="body1"
+            pt={2}
+            sx={{ textDecoration: "line-through" }}
+          >
+            {prix}
+          </Typography>
+          <Typography color="red" variant="h4" pt={1} sx={{ fontWeight: 900 }}>
+            {`${parseInt(prixnumber) * (1 - parseInt(promo[0].value) / 100)}€`}
+          </Typography>
+        </Box>
+      ) : (
+        <Typography variant="h5" pt={2}>
+          {prix}
+        </Typography>
+      )}
+      {engagementDuree > 0 ? (
+        asPromo ? (
+          <Typography variant="subtitle2" pt={1}>{`soit ${((prixnumber/engagementDuree)* (1 - parseInt(promo[0].value) / 100)).toFixed(2)}€/mois`}</Typography>
+        ) : (
+          <Typography variant="subtitle2" pt={1}>
+            {subtitlePrix}
+          </Typography>
+        )
+      ) : (
+        <Typography variant="subtitle2" pt={1}>
+          {subtitlePrix}
+        </Typography>
+      )}
       <Button
         sx={{ marginTop: 2 }}
         onClick={() => history.push(`/inscription/${link}`)}
