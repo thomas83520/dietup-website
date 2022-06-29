@@ -20,6 +20,7 @@ import Inscription from "./pages/inscription/Inscription";
 import { AuthContextProvider } from "./context/AuthContext";
 import PaiementSucces from "./pages/success_paiement/PaiementSucces";
 import { useAuthContext } from "./hooks/useAuthContext";
+import Terms from "./pages/terms/Terms";
 
 let theme = createTheme({
   
@@ -62,6 +63,10 @@ function App() {
                 ) : (
                   <Redirect to={{ pathname: "/" }} />
                 )}
+              </Route>
+
+              <Route exact path="/terms">
+                <Terms />
               </Route>
             </Switch>
             <Footer />

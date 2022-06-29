@@ -11,7 +11,7 @@ import "@fontsource/roboto";
 import { CssBaseline } from "@mui/material";
 import { AuthContext, AuthContextProvider } from "./context/AuthContext";
 
-const stripe_id = process.env.REACT_APP_STRIPE_API_KEY;
+const stripe_id = process.env.REACT_APP_STRIPE_API_PROD_KEY;
 
 const stripePromise = loadStripe(stripe_id);
 ReactDOM.render(

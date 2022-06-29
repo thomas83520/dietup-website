@@ -57,15 +57,15 @@ export default function Fonctionnalite({ reference }) {
             image={CoubresImages}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        {/*<Grid item xs={12} md={6}>
           <FonctionnaliteItem
             nom="Gallerie photo"
             direction="row"
             description="Permet aux patients de suivre en images leur évolution physique"
             image={PhotosImages}
           />
-        </Grid>
-        <Grid item xs={12} md={6}>
+        </Grid>*/}
+        <Grid item xs={12}>
           <FonctionnaliteItem
             nom="Documents"
             direction="row-reverse"

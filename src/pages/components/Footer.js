@@ -1,6 +1,11 @@
 import { Divider, Box, Typography, Link } from "@mui/material";
 import React from "react";
 
+import {
+  Link as RouterLink,
+} from "react-router-dom";
+
+
 export default function Footer() {
   return (
     <Box
@@ -21,14 +26,20 @@ export default function Footer() {
           justifyContent="space-evenly"
           alignItems="center"
         >
-          <Typography>Copyright @DietUp!2022</Typography>
-          <Typography>CGV & CGU</Typography>
+          <Typography variant="subtitle2">Copyright @DietUp!2022</Typography>
+          <Link component={RouterLink} to="/terms" color="inherit" underline="hover">
+            <Typography variant="subtitle2">Mentions légales & CGV</Typography>
+          </Link>
         </Box>
       </Box>
 
       <Typography variant="caption">
         Design and made by :{" "}
-        <Link target="_blank" href="https://www.linkedin.com/in/thomas-arnoux/" underline="hover">
+        <Link
+          target="_blank"
+          href="https://www.linkedin.com/in/thomas-arnoux/"
+          underline="hover"
+        >
           Arnoux Thomas
         </Link>
       </Typography>

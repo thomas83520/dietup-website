@@ -9,9 +9,11 @@ import {
   InputAdornment,
   IconButton,
   Checkbox,
+  Link,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
-import { red } from '@mui/material/colors';
+import { red } from "@mui/material/colors";
 import MuiPhoneNumber from "material-ui-phone-number";
 
 import Visibility from "@mui/icons-material/Visibility";
@@ -407,9 +409,12 @@ export default function InscriptionForm({
               }}
             />
             <ThemeProvider theme={responsiveFontSizes(checkboxLabelTheme)}>
-              <Typography variant="subtitle2" color={checkedError? "error" : "primary"}>
-                En cochant cette case j'atteste avoir lu et accepté les
-                conditions générales de ventes.
+              <Typography
+                variant="subtitle2"
+                color={checkedError ? "error" : "primary"}
+              >
+                En cochant cette case j'atteste avoir lu et accepté les {" "}
+                <Link component={RouterLink} to="/terms" target="_blank" >conditions générales de ventes.</Link>
               </Typography>
             </ThemeProvider>
           </Box>
