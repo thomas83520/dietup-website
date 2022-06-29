@@ -38,7 +38,6 @@ export default function Inscription() {
         setDocPlan(doc.data());
       });
     } catch (e) {
-      console.log("err");
     }
   }, [plan]);
 

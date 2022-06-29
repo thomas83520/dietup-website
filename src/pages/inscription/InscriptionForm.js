@@ -172,7 +172,6 @@ export default function InscriptionForm({
     const { valide, reponse } = await signup(email, password, displayName);
 
     if (!valide) {
-      console.log(reponse.message);
       if (reponse.code === "auth/email-already-in-use") {
         setEmailError(true);
         setErrorText("Cet email est déjà utilisé.");
@@ -180,7 +179,6 @@ export default function InscriptionForm({
       return;
     }
     const user = reponse;
-    console.log("user", user);
     const codeDiet = await callfunction("generateCodeDiet", {});
     const data = {
       email,
@@ -194,7 +192,6 @@ export default function InscriptionForm({
       asPromotion: promoCodeId === "" ? false : true,
     };
     const result = await callfunction("createStripeCustomers", data);
-    console.log("result", result);
     if (!result.needPaiment) {
       setPaiementComplete(true);
       return;

@@ -36,7 +36,6 @@ export const useSignup = () => {
       return {valide:true,reponse:response.user};
     } catch (e) {
       if (!isCancelled) {
-        console.log(e);
         setError(e.message);
         setIsPending(false);
         return {valide : false,reponse: e};

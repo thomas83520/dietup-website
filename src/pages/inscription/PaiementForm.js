@@ -44,7 +44,6 @@ export default function PaiementForm({
   newPrice,
 }) {
   const { logout, error, isPending } = useLogout();
-  console.log("user", user);
   // Initialize an instance of stripe.
   const stripe = useStripe();
   const elements = useElements();
@@ -63,12 +62,10 @@ export default function PaiementForm({
   };
 
   useEffect(async () => {
-    console.log("user", user);
     const doc = await projectFirestore
       .collection("paiementIntent")
       .doc(user.uid)
       .get();
-    console.log("doc", doc.data());
     if (doc.exists) {
       setClientSecret(doc.data().clientSecret);
       setReadyForPaiement(true);

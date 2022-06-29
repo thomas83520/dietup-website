@@ -50,15 +50,11 @@ export const useFunctions = () => {
   const callfunction = async (functionName, functionData) => {
     dispatch({ type: "IS_PENDING" });
     try {
-      console.log("name", functionName);
       var functions = projectCloudFunctions.httpsCallable(functionName);
-      console.log(functionData);
       const response = await functions(functionData);
       dispatchIfNotCancelled({ type: "SUCCESS", payload: response.data });
-      console.log("response",response);
       return response.data;
     } catch (e) {
-      console.log("error", e);
       dispatchIfNotCancelled({ type: "ERROR", payload: e });
     }
   };

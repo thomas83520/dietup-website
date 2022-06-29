@@ -33,7 +33,6 @@ export default function ModalRM({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submit");
     if (email === "") {
       setEmailError(true);
       setErrorText("Email est vide");
@@ -64,7 +63,6 @@ export default function ModalRM({
       if (type === "suggestion")
         await projectFirestore.collection("suggestion").add(docSuggestion);
     } catch (e) {
-      console.log(e);
     }
     setSuggestion('')
     handleClose();
